@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Geolocation API</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    </head>
+    <body>    
+<h1> Location</h1>
+<button onclick="getLocation()">Try It</button>
+	<p id="demo" ></p>
+<br>
+<br>
+    <div id="map" style="height: 500px"></div>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+
+function getLocation (){
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+        alert("Geolocation is not supported by this browser");
+    }    
+};
+
+function success(position) {
+  var latitude = position.coords.latitude;
+  var longitude = position.coords.longitude;
+  var accuracy = position.coords.accuracy;
+  getMap(latitude, longitude);
+}
+function error() {
+  alert("Unable to retrieve location");
+}
+
+
+
+var x = document.getElementById("demo");
+
+
+function success(position) {
+  const map = L.map("map").setView([position.coords.latitude, position.coords.longitude], 5);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+  L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
+x.innerHTML="Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude +"<br>Accuracy: " + position.coords.accuracy;
+}
+</script>
+    </body>
+</html>
